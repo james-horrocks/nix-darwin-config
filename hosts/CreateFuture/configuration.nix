@@ -1,0 +1,96 @@
+{ pkgs, lib, inputs, username, ... }:
+
+{
+  system.primaryUser = username;
+  users.users.${username}.home = "/Users/${username}";
+  nixpkgs.config.allowUnfree = true;
+
+  environment.systemPackages = with pkgs; [
+    git
+    wget
+    curl
+    nixpkgs-fmt
+    nh
+  ];
+
+  nix-homebrew = {
+    # Install Homebrew under the default prefix
+    enable = true;
+    # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
+    enableRosetta = true;
+    # User owning the Homebrew prefix
+    user = username;
+
+    # Optional: Enable fully-declarative tap management
+    #
+    # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
+    mutableTaps = true;
+  };
+
+  homebrew = {
+    enable = true;
+    taps = [];
+    casks = [
+      "wins"
+      "ghostty"
+      "plexamp"
+    ];
+  };
+
+  fonts.packages = with pkgs; [
+    meslo-lgs-nf
+    jetbrains-mono
+  ];
+
+  system.defaults = {
+    dock = { 
+      autohide = true;
+      autohide-delay = 0.1;
+      autohide-time-modifier = 0.5;
+
+      minimize-to-application = true;
+      show-recents = false;
+    };
+
+    finder = {
+      AppleShowAllExtensions = true;
+      AppleShowAllFiles = true;
+      CreateDesktop = false;
+      FXRemoveOldTrashItems = true;
+      NewWindowTarget = "Home";
+      ShowPathbar = true;
+      ShowStatusBar = true;
+    };
+
+    NSGlobalDomain = {
+      AppleInterfaceStyle = "Dark";
+      AppleShowScrollBars = "Always";
+      AppleScrollerPagingBehavior = true;
+      _HIHideMenuBar = true;
+    };
+  };
+
+
+  home-manager = {
+    users.${username} = ./home.nix;
+    backupFileExtension = "bak";
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = {
+      inherit inputs;
+      inherit pkgs;
+      inherit username;
+    };
+  };
+
+  # Optionally, use home-manager.extraSpecialArgs to pass
+  # arguments to home.nix
+
+  # Useful defaults for developers
+  programs.zsh.enable = true;
+
+  nix.enable = false;
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+
+  system.stateVersion = "25.05"; # adjust based on darwin modules compatibility
+}
