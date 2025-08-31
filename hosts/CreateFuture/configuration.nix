@@ -76,6 +76,7 @@
     backupFileExtension = "bak";
     useGlobalPkgs = true;
     useUserPackages = true;
+    sharedModules = [ inputs.mac-app-util.homeManagerModules.default ];
     extraSpecialArgs = {
       inherit inputs;
       inherit pkgs;
