@@ -47,6 +47,19 @@
             username = username;
           };
         };
+	"Skyscanner" = nix-darwin.lib.darwinSystem {
+          system = system;
+          modules = [
+            ./hosts/Skyscanner/configuration.nix
+            mac-app-util.darwinModules.default
+            home-manager.darwinModules.home-manager
+            nix-homebrew.darwinModules.nix-homebrew
+          ];
+          specialArgs = { 
+            inherit inputs;
+            username = "jameshorrocks";
+          };
+        };
       };
 
       
