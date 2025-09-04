@@ -6,6 +6,7 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+    coreutils
     git
     wget
     curl
@@ -44,6 +45,7 @@
     casks = [
       "wins"
       "ghostty"
+      "todoist-app"
       "plexamp"
     ];
   };

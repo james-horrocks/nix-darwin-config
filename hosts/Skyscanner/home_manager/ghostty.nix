@@ -10,6 +10,7 @@
       theme = "noctis-uva";
       font-family = "MesloLGS NF";
       font-size = 14;
+      font-thicken = true;
 
       cursor-style = "bar";
       cursor-style-blink = true;

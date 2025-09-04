@@ -9,11 +9,12 @@
 
     initContent = let 
       configGeneral = lib.mkOrder 1000 ''
-        eval `dircolors ~/.dircolors`
+        # eval `dircolors ~/.dircolors`
         fpath+=~/.zsh_functions
-        export EDITOR='code'
       '';
       configAfter = lib.mkOrder 1500 ''
+        alias ls='ls --color=auto'
+
         [[ -s "/home/dudette/.sdkman/bin/sdkman-init.sh" ]] && source "/home/dudette/.sdkman/bin/sdkman-init.sh"
       '';
     in
@@ -44,19 +45,14 @@
 
     sessionVariables = {
       AWS_SDK_LOAD_CONFIG=1;
+      EDITOR="code";
+      ZSH_COLORIZE_TOOL="chroma";
     };
-
-    # plugins = [
-    #   {
-    #     name = "powerlevel10k";
-    #     src = pkgs.zsh-powerlevel10k;
-    #     file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-    #   }
-    # ];
 
     oh-my-zsh = {
       enable = true;
       plugins = [
+        "aliases"
         "z"
         "common-aliases"
         "sudo"
@@ -64,14 +60,19 @@
         "python"
         "pip"
         "poetry"
+        "uv"
         "virtualenv"
+        "sdk"
+        "pre-commit"
         "aws"
         "docker"
         "docker-compose"
         "terraform"
         "rsync"
-        "systemd"
+        "macos"
         "1password"
+        "vscode"
+        "colorize"
       ];
     };
   };
@@ -81,6 +82,4 @@
     enableZshIntegration = true;
     useTheme = "atomic";
   };
-
-  # home.file.".p10k.zsh".source = ./powerlevel10k.zsh;
 }
