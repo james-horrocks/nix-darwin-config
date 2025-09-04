@@ -41,6 +41,7 @@
       "artifactory-cli-login"
       "skyscanner-bundle"
       "openssl@3"
+      "astro"
     ];
     casks = [
       "wins"

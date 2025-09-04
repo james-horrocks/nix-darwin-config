@@ -19,6 +19,7 @@
 
     vscode
     uv
+    pyenv
   ];
 
   home.file = {
