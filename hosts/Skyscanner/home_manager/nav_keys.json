@@ -1,0 +1,38 @@
+{
+    "title": "Windows-style navigation keys (external keyboards only)",
+    "rules": [
+        {
+            "description": "Home/End/PageUp/PageDown behave like Windows/Linux (only on external keyboards)",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": { "key_code": "home" },
+                    "to": [ { "key_code": "left_arrow", "modifiers": ["command"] } ]
+                },
+                {
+                    "type": "basic",
+                    "from": { "key_code": "end" },
+                    "to": [ { "key_code": "right_arrow", "modifiers": ["command"] } ]
+                },
+                {
+                    "type": "basic",
+                    "from": { "key_code": "page_up" },
+                    "to": [ { "key_code": "up_arrow", "modifiers": ["fn"] } ]
+                },
+                {
+                    "type": "basic",
+                    "from": { "key_code": "page_down" },
+                    "to": [ { "key_code": "down_arrow", "modifiers": ["fn"] } ]
+                }
+            ],
+            "conditions": [
+                {
+                    "type": "device_if",
+                    "identifiers": [
+                    { "is_keyboard": true, "is_built_in_keyboard": false }
+                    ]
+                }
+            ]
+        }
+    ]
+}
