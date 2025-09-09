@@ -42,6 +42,8 @@
       "skyscanner-bundle"
       "openssl@3"
       "astro"
+      "pyenv"
+      "pyenv-virtualenv"
     ];
     casks = [
       "wins"

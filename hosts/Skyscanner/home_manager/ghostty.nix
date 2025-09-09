@@ -8,7 +8,7 @@
 
     settings = {
       theme = "noctis-uva";
-      font-family = "MesloLGS NF";
+      font-family = "MesloLGS Nerd Font";
       font-size = 14;
       font-thicken = true;
 

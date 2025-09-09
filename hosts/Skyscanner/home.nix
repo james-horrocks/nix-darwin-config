@@ -6,7 +6,6 @@
 
   home.packages = with pkgs; [
     fastfetch
-
     zsh-fast-syntax-highlighting
     chroma
 
@@ -19,24 +18,13 @@
 
     vscode
     uv
-    pyenv
+    pre-commit
+    amazon-ecr-credential-helper
   ];
 
   home.file = {
     ".dircolors".source = ./home_manager/dracula_dircolors;
     ".config/karabiner/assets/complex_modifications/windows_nav_keys.json".source = ./home_manager/nav_keys.json;
-  };
-
-  home.sessionVariables = {
-    EDITOR = "code";
-    NH_FLAKE = "Skyscanner";
-
-    PATH="/opt/homebrew/opt/openssl@3/bin:$PATH";
-    LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib";
-    CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include";
-    PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@3/lib/pkgconfig";
-    SSL_CERT_FILE="/opt/homebrew/opt/openssl@3/cert.pem";
-    REQUESTS_CA_BUNDLE="/opt/homebrew/opt/openssl@3/cert.pem";
   };
 
   programs.ssh = {
