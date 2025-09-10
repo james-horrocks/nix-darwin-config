@@ -93,6 +93,6 @@
   programs.oh-my-posh = {
     enable = true;
     enableZshIntegration = true;
-    useTheme = "atomic";
+    settings = builtins.fromJSON (builtins.unsafeDiscardStringContext (builtins.readFile (./. + "/night-owl.omp.json")));
   };
 }

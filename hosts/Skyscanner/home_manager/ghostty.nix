@@ -8,9 +8,10 @@
 
     settings = {
       theme = "noctis-uva";
-      font-family = "MesloLGS Nerd Font";
-      font-size = 14;
-      font-thicken = true;
+      font-family = "JetBrainsMono Nerd Font";
+      font-size = 15;
+      font-thicken = false;
+      font-feature = "calt, liga, dlig";
 
       cursor-style = "bar";
       cursor-style-blink = true;
