@@ -125,7 +125,7 @@
           "foreground": "#faa029",
           "leading_diamond": "\ue0b2",
           "style": "diamond",
-          "template": "\ue7ad {{ .Profile }}{{ if .Region }}@{{ .Region }}{{ end }} ",
+          "template": "\ue7ad {{ .Profile }} ",
           "trailing_diamond": "\ue0d6",
           "type": "aws"
         },
@@ -295,6 +295,15 @@
           "template": "\ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
           "trailing_diamond": "\ue0d6",
           "type": "node"
+        },
+        {
+          "background": "#5c4ee5",
+          "foreground": "#ffffff",
+          "leading_diamond": "\ue0b2",
+          "style": "diamond",
+          "template": "\ue916 {{.WorkspaceName}}",
+          "trailing_diamond": "\ue0d6",
+          "type": "terraform"
         },
         {
           "background": "#6488c0",
