@@ -25,6 +25,7 @@
   home.file = {
     ".dircolors".source = ./home_manager/dracula_dircolors;
     ".config/karabiner/assets/complex_modifications/windows_nav_keys.json".source = ./home_manager/nav_keys.json;
+    ".config/karabiner/karabiner.json".source = ./home_manager/karabiner.json;
   };
 
   programs.ssh = {

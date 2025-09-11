@@ -58,7 +58,7 @@
     nerd-fonts.jetbrains-mono
   ];
 
-    services.karabiner-elements = {
+  services.karabiner-elements = {
     enable = true;
     package = pkgs.karabiner-elements.overrideAttrs (old: {
       version = "14.13.0";
