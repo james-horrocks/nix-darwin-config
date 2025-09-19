@@ -7,12 +7,22 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
-    initContent = let 
+    initContent = let
+      configBefore = lib.mkOrder 500 ''
+        autoload -Uz compinit
+        if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+            compinit
+        else
+            compinit -C
+        fi
+      '';
       configGeneral = lib.mkOrder 1000 ''
         # eval `dircolors ~/.dircolors`
         fpath+=~/.zsh_functions
-        eval "$(pyenv init -)"
+        eval "$(pyenv init - zsh)"
         eval "$(pyenv virtualenv-init -)"
+
+        eval "$(gh copilot alias -- zsh)"
       '';
       configAfter = lib.mkOrder 1500 ''
         alias ls='ls --color=auto'
@@ -21,6 +31,7 @@
       '';
     in
       lib.mkMerge [
+        configBefore
         configGeneral
         configAfter
       ]
@@ -29,6 +40,9 @@
     localVariables = {
       COMPLETION_WAITING_DOTS=true;
       ZSH_DISABLE_COMPFIX=true;
+      DISABLE_AUTO_UPDATE=true;
+      DISABLE_MAGIC_FUNCTIONS=true;
+      DISABLE_COMPFIX=true;
     };
 
     profileExtra = ''
@@ -43,8 +57,6 @@
     if [ -d "${pkgs.vscode}/bin" ] ; then
         PATH="${pkgs.vscode}/bin:$PATH"
     fi
-
-    eval "$(pyenv init --path)"
     '';
 
     sessionVariables = {
@@ -60,6 +72,8 @@
       PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@3/lib/pkgconfig";
       SSL_CERT_FILE="/opt/homebrew/opt/openssl@3/cert.pem";
       REQUESTS_CA_BUNDLE="/opt/homebrew/opt/openssl@3/cert.pem";
+
+      PYENV_ROOT="$HOME/.pyenv";
     };
 
     oh-my-zsh = {

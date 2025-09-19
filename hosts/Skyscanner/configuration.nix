@@ -73,10 +73,10 @@
   };
 
   system.defaults = {
-    dock = { 
+    dock = {
       autohide = true;
       autohide-delay = 0.1;
-      autohide-time-modifier = 0.5;
+      autohide-time-modifier = 0.2;
 
       minimize-to-application = true;
       show-recents = false;
