@@ -10,7 +10,7 @@
     git
     wget
     curl
-    nixpkgs-fmt
+    nixfmt
     nh
   ];
 

@@ -19,6 +19,7 @@
       configGeneral = lib.mkOrder 1000 ''
         # eval `dircolors ~/.dircolors`
         fpath+=~/.zsh_functions
+
         eval "$(pyenv init - zsh)"
         eval "$(pyenv virtualenv-init -)"
 
@@ -57,6 +58,8 @@
     if [ -d "${pkgs.vscode}/bin" ] ; then
         PATH="${pkgs.vscode}/bin:$PATH"
     fi
+
+    eval "$(/opt/homebrew/bin/pyenv init - zsh)"
     '';
 
     sessionVariables = {

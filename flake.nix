@@ -55,13 +55,11 @@
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
           ];
-          specialArgs = { 
+          specialArgs = {
             inherit inputs;
             username = "jameshorrocks";
           };
         };
       };
-
-      
     };
 }
