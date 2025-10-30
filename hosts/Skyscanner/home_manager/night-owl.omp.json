@@ -85,15 +85,6 @@
       "overflow": "break",
       "segments": [
         {
-          "background": "#d6deeb",
-          "foreground": "#011627",
-          "leading_diamond": "\ue0b6",
-          "style": "diamond",
-          "template": "\uf489  {{ .Name }} ",
-          "trailing_diamond": "\ue0d6",
-          "type": "shell"
-        },
-        {
           "background": "#8f43f3",
           "foreground": "#ffffff",
           "leading_diamond": "\ue0b2",

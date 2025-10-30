@@ -77,6 +77,7 @@
       REQUESTS_CA_BUNDLE="/opt/homebrew/opt/openssl@3/cert.pem";
 
       PYENV_ROOT="$HOME/.pyenv";
+      HOMEBREW_NO_AUTO_UPDATE=1;
     };
 
     oh-my-zsh = {
