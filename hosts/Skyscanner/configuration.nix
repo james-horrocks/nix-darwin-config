@@ -36,6 +36,7 @@
         clone_target = "git@github.com:Skyscanner/homebrew-mshell.git";
         force_auto_update = true;
       }
+      "databricks/tap"
     ];
     brews = [
       "artifactory-cli-login"
@@ -44,6 +45,7 @@
       "astro"
       "pyenv"
       "pyenv-virtualenv"
+      "databricks"
     ];
     casks = [
       "wins"

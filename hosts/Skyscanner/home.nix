@@ -41,8 +41,13 @@
 
   programs.git = {
     enable = true;
-    userName = "James Horrocks";
-    userEmail = "jameshorrocks@skyscanner.net";
+    settings = {
+      user.name = "James Horrocks";
+      user.email = "jameshorrocks@skyscanner.net";
+      init.defaultBranch = "main";
+      gpg.format = "ssh";
+      gpg.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+    };
     signing = {
       format = "ssh";
       key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIACCeXcAMW7DTQ5M9j95T0Yi6OgKOYHbJZ/O8f7Lx9xJ";
@@ -53,11 +58,6 @@
       ".vscode/"
       ".idea/"
     ];
-    extraConfig = {
-      init.defaultBranch = "main";
-      gpg.format = "ssh";
-      gpg.ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
-    };
   };
 
   programs._1password-shell-plugins = {
