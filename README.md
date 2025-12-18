@@ -15,7 +15,7 @@ Declarative macOS setups for James Horrocks, powered by [`nix-darwin`](https://g
 ## Stack overview
 
 - [`nixpkgs`](https://github.com/NixOS/nixpkgs) unstable channel for most packages
-- [`nix-darwin`](https://github.com/LnL7/nix-darwin) for system-wide modules
+- [`nix-darwin`](https://github.com/nix-darwin/nix-darwin) for system-wide modules
 - [`home-manager`](https://github.com/nix-community/home-manager) for per-user config
 - [`nix-homebrew`](https://github.com/zhaofengli/nix-homebrew) to declaratively manage taps/casks alongside Nix
 - [`mac-app-util`](https://github.com/hraban/mac-app-util) for macOS app conveniences within Nix

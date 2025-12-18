@@ -21,6 +21,9 @@
     pre-commit
     amazon-ecr-credential-helper
     gh
+    devenv
+
+    slides
   ];
 
   home.file = {
