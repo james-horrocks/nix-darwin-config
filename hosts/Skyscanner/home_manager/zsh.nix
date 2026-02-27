@@ -22,13 +22,13 @@
 
         eval "$(pyenv init - zsh)"
         eval "$(pyenv virtualenv-init -)"
-
-        eval "$(gh copilot alias -- zsh)"
       '';
       configAfter = lib.mkOrder 1500 ''
         alias ls='ls --color=auto'
 
         [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+        [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
       '';
     in
       lib.mkMerge [
@@ -59,6 +59,10 @@
         PATH="${pkgs.vscode}/bin:$PATH"
     fi
 
+    if [ -d "/opt/homebrew/bin" ] ; then
+        PATH="/opt/homebrew/bin:$PATH"
+    fi
+
     eval "$(/opt/homebrew/bin/pyenv init - zsh)"
     '';
 
@@ -68,7 +72,7 @@
       ZSH_COLORIZE_TOOL="chroma";
 
       NH_FLAKE = "Skyscanner";
-      PATH = "/Users/${username}/.local/bin:/opt/homebrew/opt/openssl@3/bin:$PATH";
+      PATH = "/Users/${username}/.openfang/bin:/Users/${username}/.local/bin:/opt/homebrew/opt/openssl@3/bin:$PATH";
 
       LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib";
       CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include";

@@ -22,6 +22,7 @@
     amazon-ecr-credential-helper
     gh
     devenv
+    github-copilot-cli
 
     slides
   ];

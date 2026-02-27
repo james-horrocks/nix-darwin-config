@@ -30,6 +30,7 @@
 
   homebrew = {
     enable = true;
+    onActivation.upgrade = true;
     taps = [
       {
         name = "skyscanner/mshell";
