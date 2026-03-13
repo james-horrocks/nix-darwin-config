@@ -85,6 +85,26 @@ Once applied, you can rerun the same command at any time to converge the machine
 
 The `CreateFuture` profile exports `NH_FLAKE=~/projects/nix-darwin-config/flake.nix#CreateFuture`, so you can simply run `nh switch` after the first deployment. Feel free to set a similar variable for other hosts.
 
+## Code formatting
+
+Nix files are formatted with [`nixfmt`](https://github.com/NixOS/nixfmt) via a `pre-commit` hook.
+
+### First-time setup
+
+Install `pre-commit` if you don't have it (it is included in the Nix packages for both hosts, or install via Homebrew):
+
+```sh
+pre-commit install
+```
+
+This registers the hook at `.git/hooks/pre-commit`. From then on, `nixfmt` runs automatically on every commit and reformats any staged `.nix` files.
+
+### Running manually
+
+```sh
+pre-commit run --all-files
+```
+
 ## Updating dependencies
 
 ```sh
