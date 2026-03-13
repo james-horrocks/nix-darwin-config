@@ -83,5 +83,6 @@
     inputs._1password-shell-plugins.hmModules.default
     ./home_manager/zsh.nix
     ./home_manager/ghostty.nix
+    ./home_manager/claude.nix
   ];
 }
