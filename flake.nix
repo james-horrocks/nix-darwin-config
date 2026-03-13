@@ -19,14 +19,16 @@
     _1password-shell-plugins.url = "github:1Password/shell-plugins";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    nix-darwin,
-    home-manager,
-    nix-homebrew,
-    mac-app-util,
-    ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nix-darwin,
+      home-manager,
+      nix-homebrew,
+      mac-app-util,
+      ...
+    }@inputs:
     let
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -47,7 +49,7 @@
             username = username;
           };
         };
-	"Skyscanner" = nix-darwin.lib.darwinSystem {
+        "Skyscanner" = nix-darwin.lib.darwinSystem {
           system = system;
           modules = [
             ./hosts/Skyscanner/configuration.nix

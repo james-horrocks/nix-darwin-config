@@ -1,4 +1,10 @@
-{ pkgs, lib, inputs, username, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  username,
+  ...
+}:
 
 {
   system.primaryUser = username;
@@ -119,7 +125,10 @@
   };
 
   nix.enable = false;
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   system.stateVersion = "25.05"; # adjust based on darwin modules compatibility
 }

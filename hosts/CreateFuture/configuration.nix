@@ -1,4 +1,10 @@
-{ pkgs, lib, inputs, username, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  username,
+  ...
+}:
 
 {
   system.primaryUser = username;
@@ -29,7 +35,7 @@
 
   homebrew = {
     enable = true;
-    taps = [];
+    taps = [ ];
     casks = [
       "wins"
       "ghostty"
@@ -43,7 +49,7 @@
   ];
 
   system.defaults = {
-    dock = { 
+    dock = {
       autohide = true;
       autohide-delay = 0.1;
       autohide-time-modifier = 0.5;
@@ -70,7 +76,6 @@
     };
   };
 
-
   home-manager = {
     users.${username} = ./home.nix;
     backupFileExtension = "bak";
@@ -91,7 +96,10 @@
   programs.zsh.enable = true;
 
   nix.enable = false;
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   system.stateVersion = "25.05"; # adjust based on darwin modules compatibility
 }

@@ -1,4 +1,10 @@
-{ inputs, pkgs, lib, username, ... }:
+{
+  inputs,
+  pkgs,
+  lib,
+  username,
+  ...
+}:
 
 {
   # home.username = username;
@@ -34,7 +40,8 @@
 
   home.file = {
     ".dircolors".source = ./home_manager/dracula_dircolors;
-    ".config/karabiner/assets/complex_modifications/windows_nav_keys.json".source = ./home_manager/nav_keys.json;
+    ".config/karabiner/assets/complex_modifications/windows_nav_keys.json".source =
+      ./home_manager/nav_keys.json;
     ".config/karabiner/karabiner.json".source = ./home_manager/karabiner.json;
   };
 
@@ -74,7 +81,10 @@
     enable = false;
     # the specified packages as well as 1Password CLI will be
     # automatically installed and configured to use shell plugins
-    plugins = with pkgs; [ gh awscli2 ];
+    plugins = with pkgs; [
+      gh
+      awscli2
+    ];
   };
 
   home.stateVersion = "25.05";
