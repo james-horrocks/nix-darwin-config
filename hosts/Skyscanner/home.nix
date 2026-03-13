@@ -31,7 +31,6 @@
     github-copilot-cli
     rustup
     copier
-    claude-code
     claude-monitor
     ollama
 
