@@ -105,6 +105,11 @@
         command = "~/.claude/statusline-command.sh";
       };
 
+      env = {
+        CLAUDE_CODE_MAX_OUTPUT_TOKENS = "8192";
+        DISABLE_AUTOUPDATER = "1";
+      };
+
       enabledPlugins = {
         "context7@claude-plugins-official" = true;
         "github@claude-plugins-official" = true;
@@ -153,9 +158,27 @@
           "Bash(gh api *)"
           "Bash(gh pr list *)"
           "Bash(gh pr view:*)"
+          "Bash(${pkgs.gh}/bin/gh repo view:*)"
+          "Bash(${pkgs.gh}/bin/gh api:*)"
+          "Bash(${pkgs.gh}/bin/gh pr list *)"
+          "Bash(${pkgs.gh}/bin/gh pr view:*)"
+          "mcp__miro__context_explore"
+          "mcp__miro__board_list_items"
+          "mcp__miro__context_get"
+          "mcp__data-knowledge-base__list_domains"
+          "mcp__data-knowledge-base__get_document"
+          "mcp__databricks-utils__list_catalogs"
+          "mcp__databricks-utils__get_table"
+          "Bash(databricks jobs get-run:*)"
+          "Bash(databricks jobs get-run-output:*)"
+          "Bash(databricks runs get:*)"
+          "Bash(java -version)"
+          "Bash(python -m pytest:*)"
+          "Bash(uv run pytest:*)"
         ];
         ask = [
           "Bash(gh api --X *)"
+          "Bash(${pkgs.gh}/bin/gh api --X *)"
         ];
       };
     };
