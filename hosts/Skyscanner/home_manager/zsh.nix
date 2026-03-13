@@ -72,7 +72,7 @@
       ZSH_COLORIZE_TOOL="chroma";
 
       NH_FLAKE = "Skyscanner";
-      PATH = "/Users/${username}/.openfang/bin:/Users/${username}/.local/bin:/opt/homebrew/opt/openssl@3/bin:$PATH";
+      PATH = "/Users/${username}/.openfang/bin:/Users/${username}/.cargo/bin:/Users/${username}/.local/bin:/opt/homebrew/opt/openssl@3/bin:$PATH";
 
       LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib";
       CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include";

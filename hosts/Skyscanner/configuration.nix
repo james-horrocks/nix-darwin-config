@@ -38,6 +38,7 @@
         force_auto_update = true;
       }
       "databricks/tap"
+      "yoanbernabeu/tap"
     ];
     brews = [
       "artifactory-cli-login"
@@ -47,6 +48,7 @@
       "pyenv"
       "pyenv-virtualenv"
       "databricks"
+      "yoanbernabeu/tap/grepai"
     ];
     casks = [
       "wins"
