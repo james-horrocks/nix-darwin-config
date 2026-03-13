@@ -16,8 +16,16 @@
     initContent =
       let
         configBefore = lib.mkOrder 500 ''
+          COMPLETION_WAITING_DOTS=true
+          ZSH_DISABLE_COMPFIX=true
+          DISABLE_AUTO_UPDATE=true
+          DISABLE_MAGIC_FUNCTIONS=true
+          DISABLE_COMPFIX=true
+          ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
+          ZSH_AUTOSUGGEST_USE_ASYNC=1
+
           autoload -Uz compinit
-          if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+          if [[ -n ${"ZDOTDIR:-$HOME"}/.zcompdump(#qN.mh+24) ]]; then
               compinit
           else
               compinit -C
@@ -43,14 +51,6 @@
         configGeneral
         configAfter
       ];
-
-    localVariables = {
-      COMPLETION_WAITING_DOTS = true;
-      ZSH_DISABLE_COMPFIX = true;
-      DISABLE_AUTO_UPDATE = true;
-      DISABLE_MAGIC_FUNCTIONS = true;
-      DISABLE_COMPFIX = true;
-    };
 
     profileExtra = ''
       if [ -d "$HOME/bin" ] ; then
