@@ -6,63 +6,24 @@
   ...
 }:
 
-{
-  home.file.".claude/statusline-command.sh" = {
-    executable = true;
-    text = ''
-      #!/usr/bin/env bash
-
-      # Read JSON input (Claude Code typically pipes JSON on stdin).
-      # If stdin is a TTY (or otherwise not piped), don't block waiting for input.
-      input=""
-      if [ ! -t 0 ]; then
-          input=$(cat)
-      fi
-
-      # Extract workspace info
-      cwd=""
-      if [ -n "$input" ] && command -v jq >/dev/null 2>&1; then
-          cwd=$(echo "$input" | jq -r '.workspace.current_dir // empty' 2>/dev/null)
-      fi
-
-      # Fall back to the current working directory if input is missing/unparseable.
-      if [ -z "$cwd" ] || [ "$cwd" = "null" ]; then
-          cwd="$PWD"
-      fi
-
-      # Get short path (replacing home with ~)
-      short_path="''${cwd/#$HOME/~}"
-
-      # Get git branch if in a git repo
-      git_info=""
-      if git -C "$cwd" rev-parse --git-dir > /dev/null 2>&1; then
-          branch=$(git -C "$cwd" -c "core.fileMode=false" -c "gc.auto=0" branch --show-current 2>/dev/null)
-          if [ -n "$branch" ]; then
-              # Get git status
-              if ! git -C "$cwd" -c "core.fileMode=false" -c "gc.auto=0" diff --quiet 2>/dev/null; then
-                  changes=" *"
-              else
-                  changes=""
-              fi
-              git_info=$(printf "\033[48;5;150m\033[38;5;233m  $branch$changes \033[0m")
-          fi
-      fi
-
-      # Get Python virtual environment if active
-      python_info=""
-      if [ -n "$VIRTUAL_ENV" ]; then
-          venv_name=$(basename "$VIRTUAL_ENV")
-          python_version=$(python --version 2>&1 | cut -d' ' -f2)
-          python_info=$(printf "\033[48;5;24m\033[38;5;229m  $venv_name $python_version \033[0m")
-      fi
-
-      # Build the status line
-      printf "\033[48;5;33m\033[38;5;233m $short_path \033[0m"
-      [ -n "$git_info" ] && printf "$git_info"
-      [ -n "$python_info" ] && printf "$python_info"
-      printf "\n"
-    '';
+let
+  claude-code-statusline = pkgs.fetchFromGitHub {
+    owner = "rz1989s";
+    repo = "claude-code-statusline";
+    rev = "65193de49080b97d8831732f81005387203f6139";
+    sha256 = "1z9c973hcgwpjssmh22bakxy917b0f11azq6jcm184zspsinsnyy";
   };
+in
+{
+  home.file.".local/share/claude-code-statusline/statusline.sh" = {
+    source = "${claude-code-statusline}/statusline.sh";
+    executable = true;
+  };
+  home.file.".local/share/claude-code-statusline/lib" = {
+    source = "${claude-code-statusline}/lib";
+    recursive = true;
+  };
+  home.file.".claude/statusline/Config.toml".source = ./statusline-config.toml;
 
   programs.claude-code = {
     enable = true;
@@ -102,12 +63,15 @@
 
       statusLine = {
         type = "command";
-        command = "~/.claude/statusline-command.sh";
+        command = "~/.local/share/claude-code-statusline/statusline.sh";
+        padding = 0;
       };
 
       env = {
         CLAUDE_CODE_MAX_OUTPUT_TOKENS = "8192";
         DISABLE_AUTOUPDATER = "1";
+        # ANTHROPIC_CUSTOM_HEADERS and GITHUB_PERSONAL_ACCESS_TOKEN
+        # are injected at shell startup from 1Password (see zsh.nix)
       };
 
       enabledPlugins = {
@@ -119,6 +83,8 @@
         "claude-md-management@claude-plugins-official" = true;
         "atlassian@claude-plugins-official" = true;
         "claude-code-setup@claude-plugins-official" = true;
+        "slack@claude-plugins-official" = true;
+        "commit-commands@claude-plugins-official" = true;
         "context-mode@context-mode" = true;
       };
 

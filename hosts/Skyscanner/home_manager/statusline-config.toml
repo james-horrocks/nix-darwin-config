@@ -1,0 +1,27 @@
+# Claude Code Statusline Configuration
+# https://github.com/rz1989s/claude-code-statusline
+
+# Theme
+theme.name = "catppuccin"
+
+# Feature toggles
+features.show_commits = false
+features.show_version = false
+features.show_submodules = false
+features.show_worktree = true
+features.show_mcp_status = false
+features.show_cost_tracking = false
+features.show_reset_info = false
+features.show_session_info = false
+features.show_prayer_times = false
+features.show_hijri_date = false
+
+# Line 1: Model, context, tokens, cache
+display.line1.components = ["model_info", "context_window", "token_usage", "cache_efficiency"]
+display.line1.separator = " | "
+display.line1.show_when_empty = true
+
+# Line 2: Directory + git branch/status
+display.line2.components = ["repo_info"]
+display.line2.separator = " | "
+display.line2.show_when_empty = true
