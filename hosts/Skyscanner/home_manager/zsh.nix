@@ -57,7 +57,6 @@
       # Runs in login shells, so env vars reach VS Code extensions and terminals.
       # Silently skips if op is unavailable or 1Password is locked.
       if command -v op &>/dev/null; then
-        export ANTHROPIC_CUSTOM_HEADERS="$(op read "op://CreateFuture/Claude Portkey Headers/password" 2>/dev/null)"
         export GITHUB_PERSONAL_ACCESS_TOKEN="$(op read "op://Personal/GitHub PAT/token" 2>/dev/null)"
       fi
 

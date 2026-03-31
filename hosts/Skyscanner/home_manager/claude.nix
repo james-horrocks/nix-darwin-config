@@ -24,6 +24,13 @@ in
     recursive = true;
   };
   home.file.".claude/statusline/Config.toml".source = ./statusline-config.toml;
+  home.file."bin/claude_api_key_helper.sh" = {
+    text = ''
+      #!/bin/bash
+      op --account skyscanner.1password.eu read "op://Employee/Portkey - Claude Code API Key/credential"
+    '';
+    executable = true;
+  };
 
   programs.claude-code = {
     enable = true;
@@ -67,11 +74,12 @@ in
         padding = 0;
       };
 
+      apiKeyHelper = "~/bin/claude_api_key_helper.sh";
       env = {
         CLAUDE_CODE_MAX_OUTPUT_TOKENS = "8192";
         DISABLE_AUTOUPDATER = "1";
-        # ANTHROPIC_CUSTOM_HEADERS and GITHUB_PERSONAL_ACCESS_TOKEN
-        # are injected at shell startup from 1Password (see zsh.nix)
+        ANTHROPIC_BASE_URL = "https://modelops-gateway.cellsdev-1.skyscannerplatform.net";
+        ANTHROPIC_CUSTOM_HEADERS = "x-portkey-config: pc-claude-6c0482";
       };
 
       enabledPlugins = {
