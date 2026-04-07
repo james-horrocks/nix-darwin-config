@@ -24,12 +24,6 @@
           ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
           ZSH_AUTOSUGGEST_USE_ASYNC=1
 
-          autoload -Uz compinit
-          if [[ -n ${"ZDOTDIR:-$HOME"}/.zcompdump(#qN.mh+24) ]]; then
-              compinit
-          else
-              compinit -C
-          fi
         '';
         configGeneral = lib.mkOrder 1000 ''
           # eval `dircolors ~/.dircolors`
@@ -41,7 +35,11 @@
         configAfter = lib.mkOrder 1500 ''
           alias ls='ls --color=auto'
 
-          [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+          sdk() {
+            unfunction sdk
+            [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+            sdk "$@"
+          }
 
           [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
         '';

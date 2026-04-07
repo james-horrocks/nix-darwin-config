@@ -54,6 +54,28 @@ in
               }
             ];
           }
+          {
+            matcher = "";
+            hooks = [
+              {
+                type = "command";
+                command = "~/.claude/mempalace-hooks/mempal_save_hook.sh";
+                timeout = 30;
+              }
+            ];
+          }
+        ];
+        PreCompact = [
+          {
+            matcher = "";
+            hooks = [
+              {
+                type = "command";
+                command = "~/.claude/mempalace-hooks/mempal_precompact_hook.sh";
+                timeout = 30;
+              }
+            ];
+          }
         ];
         Notification = [
           {
@@ -80,6 +102,9 @@ in
         DISABLE_AUTOUPDATER = "1";
         ANTHROPIC_BASE_URL = "https://modelops-gateway.cellsdev-1.skyscannerplatform.net";
         ANTHROPIC_CUSTOM_HEADERS = "x-portkey-config: pc-claude-6c0482";
+        DATABRICKS_HOST = "https://skyscanner-dev.cloud.databricks.com";
+        DATABRICKS_CONFIG_PROFILE = "default";
+        DATABRICKS_WAREHOUSE_ID = "d5f01b26a308cf40";
       };
 
       enabledPlugins = {
@@ -94,6 +119,7 @@ in
         "slack@claude-plugins-official" = true;
         "commit-commands@claude-plugins-official" = true;
         "context-mode@context-mode" = true;
+        "sonarqube-mcp-analysis@skyscanner-claude-plugins" = true;
       };
 
       permissions = {

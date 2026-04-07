@@ -93,5 +93,6 @@
     ./home_manager/zsh.nix
     ./home_manager/ghostty.nix
     ./home_manager/claude.nix
+    ./home_manager/mempalace.nix
   ];
 }
