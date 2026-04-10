@@ -23,6 +23,7 @@
           DISABLE_COMPFIX=true
           ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
           ZSH_AUTOSUGGEST_USE_ASYNC=1
+          ZSH_COLORIZE_TOOL="chroma"
 
         '';
         configGeneral = lib.mkOrder 1000 ''
@@ -55,7 +56,7 @@
       # Runs in login shells, so env vars reach VS Code extensions and terminals.
       # Silently skips if op is unavailable or 1Password is locked.
       if command -v op &>/dev/null; then
-        export GITHUB_PERSONAL_ACCESS_TOKEN="$(op read "op://Personal/GitHub PAT/token" 2>/dev/null)"
+        export GITHUB_PERSONAL_ACCESS_TOKEN="$(op --account=my.1password.com read "op://Personal/GitHub PAT/token" 2>/dev/null)"
       fi
 
       if [ -d "$HOME/bin" ] ; then
@@ -80,8 +81,6 @@
     sessionVariables = {
       AWS_SDK_LOAD_CONFIG = 1;
       EDITOR = "code";
-      ZSH_COLORIZE_TOOL = "chroma";
-
       NH_FLAKE = "Skyscanner";
       PATH = "/Users/${username}/.openfang/bin:/Users/${username}/.cargo/bin:/Users/${username}/.local/bin:/opt/homebrew/opt/openssl@3/bin:$PATH";
 
@@ -93,6 +92,11 @@
 
       PYENV_ROOT = "$HOME/.pyenv";
       HOMEBREW_NO_AUTO_UPDATE = 1;
+
+      DATABRICKS_HOST = "https://skyscanner-dev.cloud.databricks.com";
+      DATABRICKS_CONFIG_PROFILE = "skyscanner-dev";
+      DATABRICKS_WAREHOUSE_ID = "d5f01b26a308cf40";
+      DATABRICKS_TOKEN = "dummy";
     };
 
     oh-my-zsh = {
