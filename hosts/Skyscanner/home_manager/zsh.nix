@@ -9,14 +9,42 @@
 {
   programs.zsh = {
     enable = true;
-    enableCompletion = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
+    # Completion, autosuggestions, and syntax highlighting are handled
+    # by the prezto modules below — do not enable them at the zsh level too.
+    enableCompletion = false;
+    autosuggestion.enable = false;
+    syntaxHighlighting.enable = false;
+
+    prezto = {
+      enable = true;
+      pmodules = [
+        "environment"
+        "terminal"
+        "editor" # provides sudo ESC-ESC (replaces sudo plugin)
+        "history"
+        "directory"
+        "spectrum"
+        "utility" # replaces: aliases, common-aliases
+        "completion" # must be before modules that call compdef (fasd, git, python, docker)
+        "fasd" # replaces: z
+        "git" # replaces: git plugin
+        "python" # replaces: python, pip, virtualenv
+        "docker" # replaces: docker, docker-compose
+        "rsync" # replaces: rsync
+        "osx" # replaces: macos
+        "syntax-highlighting" # replaces: syntaxHighlighting.enable
+        "autosuggestions" # must be after completion and syntax-highlighting
+        # No 'prompt' module — Starship owns prompt rendering
+      ];
+      python = {
+        virtualenvAutoSwitch = false;
+        virtualenvInitialize = false;
+      };
+    };
 
     initContent =
       let
         configBefore = lib.mkOrder 500 ''
-          COMPLETION_WAITING_DOTS=true
           ZSH_DISABLE_COMPFIX=true
           DISABLE_AUTO_UPDATE=true
           DISABLE_MAGIC_FUNCTIONS=true
@@ -24,14 +52,16 @@
           ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
           ZSH_AUTOSUGGEST_USE_ASYNC=1
           ZSH_COLORIZE_TOOL="chroma"
-
         '';
         configGeneral = lib.mkOrder 1000 ''
-          # eval `dircolors ~/.dircolors`
           fpath+=~/.zsh_functions
 
-          eval "$(pyenv init - zsh)"
-          eval "$(pyenv virtualenv-init -)"
+          pyenv() {
+            unfunction pyenv
+            eval "$(command pyenv init - zsh)"
+            eval "$(command pyenv virtualenv-init -)"
+            pyenv "$@"
+          }
         '';
         configAfter = lib.mkOrder 1500 ''
           alias ls='ls --color=auto'
@@ -43,6 +73,33 @@
           }
 
           [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
+
+          # --- Manual completions (run after compinit) ---
+
+          # AWS
+          complete -C aws_completer aws
+
+          # Terraform
+          complete -o nospace -C terraform terraform
+
+          # 1Password CLI
+          if command -v op &>/dev/null; then
+            eval "$(op completion zsh)"
+          fi
+
+          # Poetry — don't eval: its completion script calls itself immediately,
+          # which triggers _tags outside a completion context. Write to fpath instead;
+          # zsh autoloads it only when actually tab-completing poetry.
+          if command -v poetry &>/dev/null; then
+            mkdir -p "$HOME/.zsh_functions"
+            [[ ! -f "$HOME/.zsh_functions/_poetry" ]] && \
+              poetry completions zsh > "$HOME/.zsh_functions/_poetry" 2>/dev/null
+          fi
+
+          # uv
+          if command -v uv &>/dev/null; then
+            eval "$(uv generate-shell-completion zsh)"
+          fi
         '';
       in
       lib.mkMerge [
@@ -74,8 +131,6 @@
       if [ -d "/opt/homebrew/bin" ] ; then
           PATH="/opt/homebrew/bin:$PATH"
       fi
-
-      eval "$(/opt/homebrew/bin/pyenv init - zsh)"
     '';
 
     sessionVariables = {
@@ -98,40 +153,14 @@
       DATABRICKS_WAREHOUSE_ID = "d5f01b26a308cf40";
       DATABRICKS_TOKEN = "dummy";
     };
-
-    oh-my-zsh = {
-      enable = true;
-      plugins = [
-        "aliases"
-        "z"
-        "common-aliases"
-        "sudo"
-        "git"
-        "python"
-        "pip"
-        "poetry"
-        "uv"
-        "virtualenv"
-        "sdk"
-        "pre-commit"
-        "aws"
-        "docker"
-        "docker-compose"
-        "terraform"
-        "rsync"
-        "macos"
-        "1password"
-        "vscode"
-        "colorize"
-      ];
-    };
   };
 
-  programs.oh-my-posh = {
+  # Catppuccin Powerline preset (mocha flavour)
+  # Preset: https://starship.rs/presets/catppuccin-powerline
+  programs.starship = {
     enable = true;
     enableZshIntegration = true;
-    settings = builtins.fromJSON (
-      builtins.unsafeDiscardStringContext (builtins.readFile (./. + "/night-owl.omp.json"))
-    );
   };
+
+  xdg.configFile."starship.toml".source = ./starship.toml;
 }
