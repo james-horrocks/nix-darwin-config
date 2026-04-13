@@ -124,6 +124,11 @@
     };
   };
 
+  # Disable nix-darwin's compinit in /etc/zshrc — prezto's completion module
+  # calls compinit itself. Double-init causes _tags "can only be called from
+  # completion function" errors on every shell startup.
+  programs.zsh.enableGlobalCompInit = false;
+
   nix.enable = false;
   nix.settings.experimental-features = [
     "nix-command"
