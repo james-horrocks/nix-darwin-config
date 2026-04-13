@@ -36,10 +36,6 @@
         "autosuggestions" # must be after completion and syntax-highlighting
         # No 'prompt' module — Starship owns prompt rendering
       ];
-      python = {
-        virtualenvAutoSwitch = false;
-        virtualenvInitialize = false;
-      };
     };
 
     initContent =
@@ -75,6 +71,9 @@
           [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
 
           # --- Manual completions (run after compinit) ---
+
+          # Enable bash-style completion commands in zsh
+          autoload -Uz bashcompinit && bashcompinit
 
           # AWS
           complete -C aws_completer aws

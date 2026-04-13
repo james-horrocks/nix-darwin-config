@@ -135,6 +135,8 @@ format = '[[ $symbol( $context) ](fg:crust bg:sapphire)]($style)'
 
 [status]
 disabled = false
+format = '[$symbol$status]($style)'
+style = "bg:sapphire"
 
 [time]
 disabled = false
