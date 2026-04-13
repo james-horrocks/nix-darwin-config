@@ -15,6 +15,23 @@ let
   };
 in
 {
+  home.activation.claudeMarketplaces = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    marketplace_file="$HOME/.claude/plugins/known_marketplaces.json"
+    mkdir -p "$(dirname "$marketplace_file")"
+    [ -f "$marketplace_file" ] || echo '{}' > "$marketplace_file"
+
+    if ! ${pkgs.jq}/bin/jq -e '."caveman"' "$marketplace_file" > /dev/null 2>&1; then
+      ${pkgs.jq}/bin/jq '. + {
+        "caveman": {
+          "source": { "source": "github", "repo": "JuliusBrussee/caveman" },
+          "installLocation": ($home + "/.claude/plugins/marketplaces/caveman"),
+          "lastUpdated": "1970-01-01T00:00:00.000Z"
+        }
+      }' --arg home "$HOME" "$marketplace_file" > "$marketplace_file.tmp" \
+        && mv "$marketplace_file.tmp" "$marketplace_file"
+    fi
+  '';
+
   home.file.".local/share/claude-code-statusline/statusline.sh" = {
     source = "${claude-code-statusline}/statusline.sh";
     executable = true;
@@ -23,6 +40,41 @@ in
     source = "${claude-code-statusline}/lib";
     recursive = true;
   };
+  home.file.".claude/statusline/plugins/caveman/plugin.sh" = {
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+      collect_caveman_data() { return 0; }
+      render_caveman() {
+        local caveman_flag="$HOME/.claude/.caveman-active"
+        [ -f "$caveman_flag" ] || return 0
+        local caveman_mode
+        caveman_mode=$(cat "$caveman_flag" 2>/dev/null)
+        if [ "$caveman_mode" = "full" ] || [ -z "$caveman_mode" ]; then
+          printf '\033[38;5;172m[CAVEMAN]\033[0m'
+        else
+          local caveman_suffix
+          caveman_suffix=$(echo "$caveman_mode" | tr '[:lower:]' '[:upper:]')
+          printf '\033[38;5;172m[CAVEMAN:%s]\033[0m' "$caveman_suffix"
+        fi
+      }
+      # Also provide get_caveman_component for legacy plugin system
+      get_caveman_component() { render_caveman; }
+      # Register with component system if available
+      if type register_component &>/dev/null; then
+        register_component "caveman" "Shows active caveman mode" "" "true"
+      fi
+    '';
+  };
+  home.file.".config/caveman/config.json".text = ''
+    { "defaultMode": "lite" }
+  '';
+  home.file.".claude/statusline/plugins/caveman/plugin.toml".text = ''
+    [plugin]
+    name = "caveman"
+    version = "1.0.0"
+    description = "Shows active caveman mode in statusline"
+  '';
   home.file.".claude/statusline/Config.toml".source = ./statusline-config.toml;
   home.file."bin/claude_api_key_helper.sh" = {
     text = ''
@@ -92,7 +144,7 @@ in
 
       statusLine = {
         type = "command";
-        command = "~/.local/share/claude-code-statusline/statusline.sh";
+        command = "CONFIG_PLUGINS_ENABLED=true CONFIG_PLUGINS_REQUIRE_SIGNATURE=false ~/.local/share/claude-code-statusline/statusline.sh";
         padding = 0;
       };
 
@@ -120,6 +172,7 @@ in
         "commit-commands@claude-plugins-official" = true;
         "context-mode@context-mode" = true;
         "sonarqube-mcp-analysis@skyscanner-claude-plugins" = true;
+        "caveman@caveman" = true;
       };
 
       permissions = {

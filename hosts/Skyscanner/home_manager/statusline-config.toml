@@ -22,6 +22,10 @@ display.line1.separator = " | "
 display.line1.show_when_empty = true
 
 # Line 2: Directory + git branch/status
-display.line2.components = ["repo_info"]
+display.line2.components = ["repo_info", "caveman"]
 display.line2.separator = " | "
 display.line2.show_when_empty = true
+
+# Plugin system
+plugins.enabled = true
+plugins.require_signature = false
